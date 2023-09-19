@@ -16,6 +16,8 @@ from decimal import Decimal
 summ_atm = Decimal(0)
 # Счетчик операций
 count_oper = 0
+# Список для сохранения всех операций поступления и снятия средств
+operation_list = list()
 
 # Процент за снятие — 1.5% от суммы снятия, но не менее 30 и не более 600 у.е.
 PERCENT_ISSUE = 1.5
@@ -30,6 +32,11 @@ PROCENT_COUNT_NUM = 3
 WEALTH_TAX = 10
 # минимальная сумма для налога на богатство в процентах
 MIN_SUMM_WEALTH_TAX = 5_000_000
+
+def save_operation(sum: int):
+    """Функция для сохранения операций поступления и снятия"""
+    global operation_list
+    operation_list.append(sum)
 
 def deduct_wealth_tax():
     """вычитать налог на богатство 10% перед каждой операцией, даже ошибочной"""
@@ -54,6 +61,7 @@ def replenish(sum: int) -> bool:
     global count_oper
     summ_atm = Decimal(summ_atm) + Decimal(sum)
     count_oper += 1
+    save_operation(sum)
     return True
 
 def issue(sum: int) -> bool:
@@ -63,6 +71,7 @@ def issue(sum: int) -> bool:
     if summ_atm >= sum:
         summ_atm = Decimal(summ_atm) - Decimal(sum)
         count_oper += 1
+        save_operation(-sum)
     else:
         return False
     return True
