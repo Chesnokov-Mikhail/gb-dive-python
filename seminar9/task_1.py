@@ -51,7 +51,7 @@ def input_csv(path_scv: str):
             koef_list = load_csv(path_scv)
             for tup in koef_list:
                 res = func(*tup)
-                key = "_".join(map(str,tup))
+                key = str(tup)
                 result[key] = res
             return result
         return wrapper
