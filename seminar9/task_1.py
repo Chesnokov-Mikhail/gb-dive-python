@@ -72,6 +72,8 @@ def resolve_quadratic(a: int, b: int, c: int) -> tuple:
 
 if __name__ == "__main__":
     # Сохранение коэфицентов в csv файл
-    save_csv(generator_koeficient(100,1,100), PATH_CSV)
-
-    print(resolve_quadratic(1, 4, 2))
+    if save_csv(generator_koeficient(100,1,100), PATH_CSV):
+        if resolve_quadratic(1, 4, 2):
+            print(f"Решение сохранено в файле {PATH_JSON}")
+        else:
+            print(f"Решение НЕ сохранено в файле {PATH_JSON}")
