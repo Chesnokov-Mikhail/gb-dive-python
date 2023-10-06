@@ -12,7 +12,7 @@ def save_json(data_dict: dict, path_json: str) -> bool:
     path = Path(path_json)
     if path.parent.exists():
         with path.open("w", encoding="UTF-8") as f:
-            json.dump(data_dict, f)
+            json.dump(data_dict, f, indent=4)
         return True
     return False
 

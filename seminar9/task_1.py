@@ -51,7 +51,7 @@ def input_csv(path_scv: str):
             koef_list = load_csv(path_scv)
             for tup in koef_list:
                 res = func(*tup)
-                key = tup
+                key = "_".join(map(str,tup))
                 result[key] = res
             return result
         return wrapper
@@ -72,6 +72,6 @@ def resolve_quadratic(a: int, b: int, c: int) -> tuple:
 
 if __name__ == "__main__":
     # Сохранение коэфицентов в csv файл
-    save_csv(generator_koeficient(2,1,100), PATH_CSV)
+    save_csv(generator_koeficient(100,1,100), PATH_CSV)
 
     print(resolve_quadratic(1, 4, 2))
