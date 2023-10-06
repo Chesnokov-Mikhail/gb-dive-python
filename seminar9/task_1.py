@@ -60,8 +60,16 @@ def input_csv(path_scv: str):
 @output_json(PATH_JSON)
 @input_csv(PATH_CSV)
 def resolve_quadratic(a: int, b: int, c: int) -> tuple:
+    """
+    Возвращает решение квадратного уравнения ax+bx2+c=0
+    :param a: коэфицент a
+    :param b: коэфицент b
+    :param c: коэфицент c
+    :return: кортеж корней
+    """
     # Вычисляем дискриминант квадратного уравнения
     d = b**2 -4*a*c
+    # Находим корни квадратного уравнения
     if d < 0:
         return (None)
     elif d == 0:
