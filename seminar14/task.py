@@ -38,8 +38,8 @@ class User:
             return all(((self.id == other.id), (self.name == other.name)))
         raise TypeError(f"Сравниваемый объект не является экземпляром класса {User.__name__}")
 
-    def __lt__(self, other):
-        if isinstance(other,User):
+    def __lt__(self, other) -> bool:
+        if isinstance(other,(User)):
             return (self.level < other.level)
         raise TypeError(f"Сравниваемый объект не является экземпляром класса {User.__name__}")
 
@@ -50,13 +50,6 @@ class User:
             raise ValueError(f"введите корректный уровень доступа от {MIN_LEVEL} до {MAX_LEVEL}")
         return True
 
-    # def add_user_db(self):
-    #     users_id = set()
-    #     data = load_db()
-    #     for user in data.values():
-    #         users_id.update(map(int, user.keys()))
-    #     if self.id in users_id:
-    #         raise ValueError("Такой идентификатор существует, введите новый.")
 def load_db() -> dict:
     path = Path(PATH_DB)
     if path.exists() and path.is_file():
@@ -88,34 +81,59 @@ def load_users_from_json() -> list[User]:
     return result
 
 class Logger:
+    # список пользователей
     __users = list()
+    # список авторизованных пользователей
     __users_log = list()
 
     def __init__(self):
         self.__users = load_users_from_json()
 
-    def authorize(self, name: str, id: int):
+    def authorize(self, name: str, id: int) -> User:
         user_log = User(name, id)
         for user in self.__users:
             if user_log == user:
                 user_log.level = user.level
                 self.__users_log.append(user_log)
                 return user_log
+
+    def add_user_db(self, my_user: User, other: User) -> bool:
+        if my_user in self.__users_log:
+            try:
+                if other < my_user:
+                    raise AccesError(f"Уровень добавляемого пользователя {other.level} меньше вашего уровня {my_user.level}")
+            except AccesError as e:
+                print(e)
+                return False
+            else:
+                return self.__add_new_user_db(other)
+        else:
+            print("Вы не авторизованный пользователь")
+            return False
+
+    @staticmethod
+    def __add_new_user_db(user: User) -> bool:
+        users_id = set()
+        data = load_db()
+        for users in data.values():
+            users_id.update(map(int, users.keys()))
+        try:
+            if user.id in users_id:
+                raise ValueError(f"Идентификатор {user.id} существует, измените идентификатор.")
+        except ValueError as e:
+            print(e)
+        else:
+            if user.level in map(int, data.keys()):
+                data[str(user.level)][user.id] = user.name
+            else:
+                data[str(user.level)] = {user.id: user.name}
+            save_db(data)
+            return True
         return False
 
-    def add_user_db(self, my_user: User, other: User):
-        if other < my_user:
-            raise AccesError(f"уровень пользователя {other.level} меньше моего уровня {my_user.level}")
-        else:
-            data = load_db()
-            if other.level in map(int, data.keys()):
-                data[other.level][other.id] = other.name
-            else:
-                data[other.level] = {other.id: other.name}
-            save_db(data)
-
 if __name__ == "__main__":
-    user_2 = User("Михаил",12,6)
     loging = Logger()
-    user = loging.authorize("Михаил",3)
+    user = loging.authorize("Михаил",1)
     print(user)
+    user_2 = User("Вова",11,6)
+    print(loging.add_user_db(user, user_2))
