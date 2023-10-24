@@ -50,13 +50,13 @@ class User:
             raise ValueError(f"введите корректный уровень доступа от {MIN_LEVEL} до {MAX_LEVEL}")
         return True
 
-    def add_user_db(self):
-        users_id = set()
-        data = load_db()
-        for user in data.values():
-            users_id.update(map(int, user.keys()))
-        if self.id in users_id:
-            raise ValueError("Такой идентификатор существует, введите новый.")
+    # def add_user_db(self):
+    #     users_id = set()
+    #     data = load_db()
+    #     for user in data.values():
+    #         users_id.update(map(int, user.keys()))
+    #     if self.id in users_id:
+    #         raise ValueError("Такой идентификатор существует, введите новый.")
 def load_db() -> dict:
     path = Path(PATH_DB)
     if path.exists() and path.is_file():
@@ -96,7 +96,6 @@ class Logger:
 
     def authorize(self, name: str, id: int):
         user_log = User(name, id)
-        print(self.__users)
         for user in self.__users:
             if user_log == user:
                 user_log.level = user.level
@@ -118,5 +117,5 @@ class Logger:
 if __name__ == "__main__":
     user_2 = User("Михаил",12,6)
     loging = Logger()
-    user = loging.authorize("Михаил",1)
+    user = loging.authorize("Михаил",3)
     print(user)
