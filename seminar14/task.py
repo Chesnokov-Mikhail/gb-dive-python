@@ -35,7 +35,7 @@ class User:
 
     def __eq__(self, other):
         if isinstance(other,User):
-            return all((self.id == other.id), (self.name == other.name))
+            return all(((self.id == other.id), (self.name == other.name)))
         raise TypeError(f"Сравниваемый объект не является экземпляром класса {User.__name__}")
 
     def __lt__(self, other):
@@ -92,10 +92,11 @@ class Logger:
     __users_log = list()
 
     def __init__(self):
-        __users = load_users_from_json()
+        self.__users = load_users_from_json()
 
     def authorize(self, name: str, id: int):
         user_log = User(name, id)
+        print(self.__users)
         for user in self.__users:
             if user_log == user:
                 user_log.level = user.level
@@ -117,5 +118,5 @@ class Logger:
 if __name__ == "__main__":
     user_2 = User("Михаил",12,6)
     loging = Logger()
-    user = loging.authorize("Михаил",2)
+    user = loging.authorize("Михаил",1)
     print(user)
