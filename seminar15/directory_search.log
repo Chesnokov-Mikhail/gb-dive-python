@@ -1,0 +1,10 @@
+INFO  - name=ca, extension=.crt, directory=False, parent_directory=C:\TMP\config
+INFO  - name=machesnokov, extension=.conf, directory=False, parent_directory=C:\TMP\config
+INFO  - name=machesnokov, extension=.crt, directory=False, parent_directory=C:\TMP\config
+INFO  - name=machesnokov, extension=.key, directory=False, parent_directory=C:\TMP\config
+INFO  - name=machesnokov, extension=.ovpn, directory=False, parent_directory=C:\TMP\config
+INFO  - name=ta, extension=.key, directory=False, parent_directory=C:\TMP\config
+INFO  - name=test, extension=, directory=True, parent_directory=C:\TMP\config
+INFO  - name=test2, extension=, directory=True, parent_directory=C:\TMP\config
+INFO  - name=Документ Microsoft Office Word, extension=.docx, directory=False, parent_directory=C:\TMP\config\test2
+INFO  - name=Новый текстовый документ, extension=.txt, directory=False, parent_directory=C:\TMP\config\test2
